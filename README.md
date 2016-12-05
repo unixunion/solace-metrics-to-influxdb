@@ -57,7 +57,7 @@ queries setup to downsample data as needed.
 Remember to tweak your retention policy in influxdb to be something reasonable.
 and see https://docs.influxdata.com/influxdb/v1.1/guides/downsampling_and_retention/
 
-The following is 14 days at full res, then down to 30 minuts for a year, and
+The following is 14 days at full res, then down to 30 minutes for a year, and
 2h resolution up to 5 years.
 
 ```
