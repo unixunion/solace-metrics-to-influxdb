@@ -122,7 +122,7 @@ Solace connection and metric requests are defined in the SMGApp config json, for
           //...
 ```
 
-More info on the config below below.
+More info on the config below.
 
 #### Request Response Handlers
 
