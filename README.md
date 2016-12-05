@@ -24,6 +24,8 @@ InfluxDB using the influx java http client.
 Usage of SMG is subject to a $1000 yearly fee. Its a honour based system, please contact me
 on smg@kegans.com for more info.
 
+Subscribers also get access to the source code.
+
 ## QuickStart
 
 Get the current [binary](https://github.com/unixunion/solace-metrics-to-influxdb/releases/download/v1.0-beta1/solace-metrics-gatherer-fat.jar) or build with  `./gradlew shadowJar`
