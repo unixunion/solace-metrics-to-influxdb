@@ -1,0 +1,196 @@
+// config options per service are as per: DeployOptions.java
+{
+  "conf_source": "tld",
+  "services": {
+    "SI1": {
+      "class": "com.deblox.smg.SMGApp",
+      "config": {
+        "environment": "si1",
+        "cluster_name": "solace-mq.si1.domain.com",
+        "solace_address": "10.0.0.1:55555",
+        "solace_vpn": "default",
+        "solace_user": "default",
+        "solace_pass": "password",
+        "semp_rpc_version": "7_1_1",
+        "publish_topic_prefix": "#SMG",
+        "request_credits": 2000,
+        "request_queue_check_interval": 25,
+        "blocking_mode": false,
+        "requestResponseHandlers": [
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><message-spool><stats></stats></message-spool></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/message-spool/message-spool-stats",
+              "xpath_subkey": ".",
+              "xpath_descend_into": [],
+              "tags": {},
+              "metric-type": "message-spool-stats"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><bridge><bridge-name-pattern>*</bridge-name-pattern><stats></stats></bridge></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/redundancy",
+              "xpath_subkey": ".",
+              "xpath_descend_into": [
+                "oper-status"
+              ],
+              "tags": {},
+              "metric-type": "global-redundancy-stats"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><redundancy></redundancy></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/redundancy",
+              "xpath_subkey": ".",
+              "xpath_descend_into": [
+                "oper-status"
+              ],
+              "tags": {},
+              "metric-type": "global-redundancy-stats"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><stats><ssl></ssl></stats></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/stats/ssl",
+              "xpath_subkey": ".",
+              "xpath_descend_into": [],
+              "tags": {},
+              "metric-type": "global-ssl-stats"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><stats><client></client></stats></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/stats/client/global/stats",
+              "xpath_subkey": ".",
+              "xpath_descend_into": [
+                "ingress-discards",
+                "egress-discards"
+              ],
+              "tags": {},
+              "metric-type": "global-client-stats"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><queue><name>*</name><detail/><count/><num-elements>10</num-elements></queue></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/queue/queues/queue",
+              "xpath_subkey": "info",
+              "xpath_descend_into": [],
+              "tags": {
+                "message-vpn-name": {
+                  "value_path": "message-vpn"
+                },
+                "queue-name": {
+                  "value_path": "../name"
+                }
+              },
+              "metric-type": "queue-metric"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><message-vpn><vpn-name>*</vpn-name><detail></detail><count></count><num-elements>10</num-elements></message-vpn></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/message-vpn/vpn",
+              "xpath_subkey": ".",
+              "xpath_descend_into": [],
+              "tags": {
+                "message-vpn-name": {
+                  "value_path": "name"
+                }
+              },
+              "metric-type": "message-vpn-metric"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><message-vpn><vpn-name>*</vpn-name><stats></stats><count></count><num-elements>10</num-elements></message-vpn></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/message-vpn/vpn",
+              "xpath_subkey": "stats",
+              "xpath_descend_into": [],
+              "tags": {
+                "message-vpn-name": {
+                  "value_path": "../name"
+                }
+              },
+              "metric-type": "message-vpn-metric"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><client><name>*</name><stats></stats><count></count><num-elements>10</num-elements></client></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/client/primary-virtual-router/client",
+              "xpath_subkey": "stats",
+              "xpath_descend_into": [
+                "ingress-discards",
+                "egress-discards"
+              ],
+              "tags": {
+                "message-vpn-name": {
+                  "value_path": "../message-vpn"
+                },
+                "description": {
+                  "value_path": "../description"
+                },
+                "client-name": {
+                  "value_path": "../name",
+                  "transform_regex": "^(.*?)\\/"
+                }
+              },
+              "metric-type": "client-metric"
+            }
+          },
+          {
+            "class": "com.deblox.smg.data.handlers.FlexibleHandler",
+            "XML": "<rpc semp-version='soltr/%s'><show><client-username><name>*</name><stats></stats><count></count><num-elements>10</num-elements></client-username></show></rpc>",
+            "xpath_config": {
+              "debug": false,
+              "xpath_expression": "//show/client-username/client-usernames/client-username",
+              "xpath_subkey": ".",
+              "xpath_descend_into": [],
+              "tags": {
+                "message-vpn-name": {
+                  "value_path": "message-vpn"
+                },
+                "client-username": {
+                  "value_path": "client-username"
+                }
+              },
+              "metric-type": "client-username-metric"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "vertx_options": {
+    "blocked_thread_check_period": 1000,
+    "max_event_loop_execute_time": 3000000000,
+    "max_worker_execute_time": 60000000000,
+    "quorum_size": 1,
+    "ha_group": "__DEFAULT__",
+    "ha_enabled": false,
+    "metrics_enabled": false
+  }
+}
