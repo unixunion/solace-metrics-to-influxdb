@@ -26,7 +26,7 @@ on smg@kegans.com for more info.
 
 ## QuickStart
 
-Get the current [binary](https://github.com/unixunion/solace-metrics-gatherer/releases/download/v1.0/solace-metrics-gatherer-fat.jar) or build with  `./gradlew shadowJar`
+Get the current [binary](https://github.com/unixunion/solace-metrics-to-influxdb/releases/download/v1.0-beta1/solace-metrics-gatherer-fat.jar) or build with  `./gradlew shadowJar`
 * Enable "Management VPN" and "SHOW SEMP" on a VPN per cluster
 * Create a client-user for the SMGApp and InfluxClient in the VPN
 * Create a config based off `config/ENV_NAME/influxclient.json`
